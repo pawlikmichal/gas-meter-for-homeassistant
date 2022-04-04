@@ -23,7 +23,7 @@ Powodzenia w realizacji.
 
 Pozdrawiam 
 
-Scheme:
+Schemat:
 <p align="center">
   <img width="80%" src="scheme.png">
 </p>

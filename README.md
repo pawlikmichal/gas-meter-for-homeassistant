@@ -3,7 +3,7 @@
 
 #code in "gas-meter-for-homeassistant.yaml" file is based on: https://github.com/klaasnicolaas/home-assistant-glow/blob/main/home_assistant_glow.yaml
 
-The idea of reading the gas meter indications arose as a result of another project: https://github.com/klaasnicolaas/home-assistant-glow/blob/main/home_assistant_glow.yaml
+The idea of reading the gas meter indications arose as a result of another project: https://github.com/klaasnicolaas/home-assistant-glow
 
 During work, I was modifying the code available in the above-mentioned repository.
 

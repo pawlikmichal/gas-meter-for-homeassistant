@@ -1,10 +1,7 @@
 # gas-meter-for-homeassistant
-#code based on: https://github.com/klaasnicolaas/home-assistant-glow/blob/main/home_assistant_glow.yaml
-gas meter for homeassistant
+<b>gas meter for homeassistant</b>
 
-<p align="center">
-  <img width="80%" src="scheme.png">
-</p>
+#code in "gas-meter-for-homeassistant.yaml" file is based on: https://github.com/klaasnicolaas/home-assistant-glow/blob/main/home_assistant_glow.yaml
 
 The idea of reading the gas meter indications arose as a result of another project: https://github.com/klaasnicolaas/home-assistant-glow/blob/main/home_assistant_glow.yaml
 
@@ -21,3 +18,12 @@ The first problem that I encountered in the implementation of the impulse counte
 The second problem was too long short circuit time of the reed switch, eg when the counter stopped in the "0" position on the last dial. This short circuit may take hours unti gas is begin drawing up again. In order to solve this situation, I used the CE030 time module shown in the scheme with the program 12 set. T1 and T2 times were set to 200 ms.
 
 The next step was to make connection between NO pin of the CE030 chip and for e.g. the D4 pin in WEMOS D1 mini. Code for ESPHome is available in the .yaml file.
+
+Good luck with your implementation.
+
+Regards
+
+Scheme:
+<p align="center">
+  <img width="80%" src="scheme.png">
+</p>

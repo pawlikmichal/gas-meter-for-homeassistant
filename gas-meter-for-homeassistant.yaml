@@ -1,0 +1,95 @@
+---
+#code based on: https://github.com/klaasnicolaas/home-assistant-glow/blob/main/home_assistant_glow.yaml
+
+substitutions:
+  device_name: licznik-gazu-d1
+  friendly_name: Licznik gazu d1
+  device_description: "Licznik gazu ziemnego d1"
+  pulse_rate: '100'
+
+esphome:
+  name: '${device_name}'
+  comment: '${device_description}'
+  project:
+    name: "pawlikmichal. gas-meter-for-homeassistant"
+    version: "1.0.0"
+
+esp8266:
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # manual_ip: #uncomment and set valid settings if You need static IP
+    # Set this to the IP of the ESP
+    # static_ip: 192.168.x.a #uncomment and set valid settings if You need static IP
+    # Set this to the IP address of the router. Often ends with .1
+    # gateway: 192.168.x.y #uncomment and set valid settings if You need static IP
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    # subnet: 255.255.255.0 #uncomment and set valid settings if You need static IP
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp8266 Fallback Hotspot"
+    password: ! secret fallback_password
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome_api_password
+
+ota:
+  safe_mode: true
+  reboot_timeout: 10min
+  num_attempts: 5
+  password: "xxxxxxxxxxxxxxxxxxx"
+
+web_server:
+  port: 80
+  auth:
+    username: !secret web_server_username
+    password: !secret web_server_password
+
+# Sensors for ESP version and WIFI information
+text_sensor:
+  - platform: version
+    hide_timestamp: true
+    name: "${friendly_name} - ESPHome Version"
+  - platform: wifi_info
+    ip_address:
+      name: "${friendly_name} - IP Address"
+      icon: mdi:wifi
+    ssid:
+      name: "${friendly_name} - Connected SSID"
+      icon: mdi:wifi-strength-2
+
+sensor:
+  - platform: pulse_meter
+    name: '${friendly_name} - Gas consumption (temporary consumption)'
+    unit_of_measurement: 'm³/h'
+    state_class: measurement
+    device_class: gas
+    icon: mdi:flash-outline
+    accuracy_decimals: 3
+    pin:
+      number: 2 #D4 
+      mode:
+        input: true
+        pullup: true
+      inverted: false
+    internal_filter: 800ms
+    filters:
+      - lambda: return x * ((60.0 / ${pulse_rate})); 
+    total:
+      name: '${friendly_name} - Total Gas Consumpion (m³)'
+      unit_of_measurement: 'm³'
+      icon: mdi:circle-slice-3
+      state_class: total_increasing 
+      device_class: gas
+      accuracy_decimals: 3
+      filters:
+        - lambda: return x * (1.0 / ${pulse_rate});
